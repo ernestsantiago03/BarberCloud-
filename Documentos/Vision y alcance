@@ -379,6 +379,3 @@ El sistema debe priorizar la **completitud funcional de los requisitos solicitad
 Cada módulo deberá implementar las funcionalidades necesarias para demostrar su propósito dentro del sistema, evitando características avanzadas que no sean necesarias para cumplir los objetivos del proyecto.
 
 La solución debe ser suficientemente realista para representar el funcionamiento básico de una barbería, pero mantenerse dentro de un nivel de complejidad razonable para un equipo de desarrolladores.
-
-
-..

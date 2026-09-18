@@ -1,0 +1,399 @@
+# Actores, Usuarios, Roles y Permisos
+
+## 1. Objetivo
+
+Este documento define los tipos de usuarios que utilizarán el sistema de gestión de la barbería, sus responsabilidades, los roles disponibles y los permisos asociados a cada rol.
+
+El objetivo es establecer desde el inicio qué funcionalidades puede utilizar cada tipo de usuario, evitando que las reglas de autorización queden definidas de manera informal durante el desarrollo.
+
+---
+
+# 2. Actores del sistema
+
+El sistema tendrá tres actores principales:
+
+- Administrador.
+- Recepcionista.
+- Barbero.
+
+Cada actor utilizará una cuenta de usuario para autenticarse en el sistema.
+
+La cuenta de usuario determinará el rol o roles que posee y, a partir de estos, los permisos disponibles.
+
+---
+
+# 3. Usuario
+
+Un **usuario** representa una persona autorizada para acceder al sistema.
+
+La cuenta de usuario estará destinada exclusivamente al acceso y control de seguridad. La información específica de la persona podrá estar asociada a una entidad del sistema cuando corresponda.
+
+Por ejemplo, un usuario con rol de barbero podrá estar asociado a un registro de barbero.
+
+Conceptualmente:
+
+```text
+Usuario
+   │
+   ├── Roles
+   │     └── Permisos
+   │
+   └── Barbero (cuando corresponda)
+```
+
+No todos los usuarios tienen que estar asociados a un barbero. Por ejemplo, un administrador o recepcionista no requiere dicha asociación.
+
+---
+
+# 4. Roles
+
+Un rol representa un conjunto de responsabilidades dentro del sistema.
+
+El sistema tendrá inicialmente tres roles:
+
+```text
+Administrador
+Recepcionista
+Barbero
+```
+
+Los roles podrán estar asociados a múltiples permisos.
+
+---
+
+# 5. Administrador
+
+## 5.1. Responsabilidad
+
+El Administrador es responsable de la configuración y administración general del sistema.
+
+## 5.2. Acceso
+
+El Administrador tendrá acceso a los módulos administrativos y podrá consultar la información general del sistema.
+
+### Usuarios
+
+- Consultar usuarios.
+- Crear usuarios.
+- Editar usuarios.
+- Activar o desactivar usuarios.
+- Asignar roles.
+
+### Roles y permisos
+
+- Consultar roles.
+- Crear roles.
+- Editar roles.
+- Consultar permisos.
+- Asignar permisos a roles.
+
+### Clientes
+
+- Consultar clientes.
+- Registrar clientes.
+- Editar clientes.
+- Activar o desactivar clientes.
+
+### Barberos
+
+- Consultar barberos.
+- Registrar barberos.
+- Editar barberos.
+- Activar o desactivar barberos.
+
+### Citas
+
+- Consultar citas.
+- Crear citas.
+- Editar citas.
+- Cancelar citas.
+- Cambiar el estado de una cita.
+
+### Servicios
+
+- Consultar servicios.
+- Crear servicios del catálogo.
+- Editar servicios.
+- Activar o desactivar servicios.
+- Consultar servicios realizados.
+
+### Pagos
+
+- Consultar pagos.
+- Registrar pagos.
+- Editar pagos cuando corresponda.
+- Consultar pagos pendientes.
+
+### Historial
+
+- Consultar historial de servicios de los clientes.
+- Consultar servicios realizados.
+
+### Auditoría
+
+- Consultar registros de auditoría.
+
+### Reportes
+
+- Consultar todos los reportes disponibles.
+
+---
+
+# 6. Recepcionista
+
+## 6.1. Responsabilidad
+
+El Recepcionista será responsable principalmente de las operaciones administrativas relacionadas con clientes, citas y pagos.
+
+## 6.2. Acceso
+
+### Clientes
+
+- Consultar clientes.
+- Registrar clientes.
+- Editar información administrativa del cliente.
+- Activar o desactivar clientes cuando corresponda.
+
+### Barberos
+
+- Consultar barberos.
+- Consultar su disponibilidad mediante las citas existentes.
+
+No podrá modificar la información administrativa de los barberos.
+
+### Citas
+
+- Consultar citas.
+- Crear citas.
+- Editar citas.
+- Cancelar citas.
+- Confirmar citas.
+- Registrar estados administrativos de las citas.
+
+### Servicios
+
+- Consultar el catálogo de servicios.
+- Consultar servicios realizados.
+
+No podrá modificar la configuración general del catálogo de servicios.
+
+### Pagos
+
+- Consultar pagos.
+- Registrar pagos.
+- Consultar pagos pendientes.
+
+### Historial
+
+- Consultar la información básica del historial de servicios cuando sea necesaria para las operaciones administrativas.
+- No podrá modificar registros históricos de servicios.
+
+### Reportes
+
+Podrá consultar reportes administrativos relacionados con:
+
+- Citas.
+- Clientes.
+- Pagos.
+- Servicios.
+
+### Administración
+
+No podrá:
+
+- Gestionar usuarios.
+- Gestionar roles.
+- Gestionar permisos.
+- Consultar la auditoría administrativa completa.
+- Modificar la configuración general del sistema.
+
+---
+
+# 7. Barbero
+
+## 7.1. Responsabilidad
+
+El Barbero será responsable de gestionar las citas y los servicios relacionados con los clientes que atiende.
+
+## 7.2. Acceso
+
+### Clientes
+
+- Consultar clientes.
+- Consultar información necesaria para la atención.
+- Registrar clientes cuando el proceso de la barbería lo permita.
+
+No tendrá permisos para eliminar clientes.
+
+### Citas
+
+- Consultar sus citas.
+- Consultar información del cliente asociada a sus citas.
+- Marcar una cita como atendida.
+- Registrar observaciones relacionadas con el servicio.
+
+No podrá administrar las citas de otros barberos salvo que se le otorgue explícitamente el permiso correspondiente.
+
+### Historial
+
+- Consultar el historial de servicios de sus clientes.
+- Registrar información relacionada con los servicios realizados.
+- Registrar observaciones.
+- Consultar servicios realizados anteriormente.
+
+### Servicios
+
+- Consultar el catálogo de servicios.
+- Registrar servicios realizados.
+- Modificar información de servicios realizados bajo su responsabilidad.
+- Actualizar el estado de un servicio.
+
+### Pagos
+
+El Barbero no será responsable de las operaciones financieras.
+
+No podrá:
+
+- Registrar pagos.
+- Modificar pagos.
+- Eliminar pagos.
+
+Podrá consultar información económica del servicio cuando resulte necesaria para la operación y siempre que exista un permiso específico para ello.
+
+### Reportes
+
+Podrá consultar reportes relacionados con su actividad, como:
+
+- Sus citas.
+- Servicios realizados.
+- Clientes atendidos.
+
+No tendrá acceso a reportes financieros generales de la barbería.
+
+### Administración
+
+No podrá:
+
+- Gestionar usuarios.
+- Gestionar roles.
+- Gestionar permisos.
+- Gestionar otros barberos.
+- Consultar la auditoría administrativa completa.
+
+---
+
+# 8. Permisos
+
+Los permisos representan acciones específicas que un usuario puede realizar sobre una funcionalidad.
+
+Se utilizará una nomenclatura consistente:
+
+```text
+<Modulo>.<Accion>
+```
+
+Ejemplos:
+
+```text
+Clientes.Ver
+Clientes.Crear
+Clientes.Editar
+Clientes.Desactivar
+
+Barberos.Ver
+Barberos.Crear
+Barberos.Editar
+Barberos.Desactivar
+
+Citas.Ver
+Citas.Crear
+Citas.Editar
+Citas.Cancelar
+Citas.Atender
+
+Servicios.Ver
+Servicios.Crear
+Servicios.Editar
+Servicios.Desactivar
+Servicios.RegistrarRealizado
+
+Historial.Ver
+Historial.Crear
+Historial.Editar
+
+Pagos.Ver
+Pagos.Crear
+Pagos.Editar
+
+Usuarios.Ver
+Usuarios.Crear
+Usuarios.Editar
+Usuarios.Desactivar
+
+Roles.Ver
+Roles.Crear
+Roles.Editar
+
+Permisos.Ver
+Permisos.Asignar
+```
+
+Para funcionalidades transversales:
+
+```text
+Auditoria.Ver
+Reportes.Ver
+```
+
+---
+
+# 9. Matriz inicial de permisos
+
+La siguiente matriz representa la configuración inicial propuesta.
+
+| Módulo / Acción | Administrador | Recepcionista | Barbero |
+|---|:---:|:---:|:---:|
+| Clientes - Ver | ✓ | ✓ | ✓ |
+| Clientes - Crear | ✓ | ✓ | ✓* |
+| Clientes - Editar | ✓ | ✓ | — |
+| Clientes - Desactivar | ✓ | ✓ | — |
+| Barberos - Ver | ✓ | ✓ | ✓ |
+| Barberos - Crear | ✓ | — | — |
+| Barberos - Editar | ✓ | — | — |
+| Barberos - Desactivar | ✓ | — | — |
+| Citas - Ver | ✓ | ✓ | ✓* |
+| Citas - Crear | ✓ | ✓ | — |
+| Citas - Editar | ✓ | ✓ | — |
+| Citas - Cancelar | ✓ | ✓ | — |
+| Citas - Atender | ✓ | — | ✓ |
+| Servicios - Ver | ✓ | ✓ | ✓ |
+| Servicios - Crear catálogo | ✓ | — | — |
+| Servicios - Editar catálogo | ✓ | — | — |
+| Servicios - Desactivar | ✓ | — | — |
+| Servicios - Registrar realizado | ✓ | — | ✓ |
+| Servicios - Editar realizado | ✓ | — | ✓ |
+| Historial - Ver | ✓ | ✓* | ✓ |
+| Historial - Crear | — | — | ✓ |
+| Historial - Editar | — | — | ✓ |
+| Pagos - Ver | ✓ | ✓ | — |
+| Pagos - Crear | ✓ | ✓ | — |
+| Pagos - Editar | ✓ | — | — |
+| Usuarios - Ver | ✓ | — | — |
+| Usuarios - Crear | ✓ | — | — |
+| Usuarios - Editar | ✓ | — | — |
+| Usuarios - Desactivar | ✓ | — | — |
+| Roles - Ver | ✓ | — | — |
+| Roles - Crear | ✓ | — | — |
+| Roles - Editar | ✓ | — | — |
+| Permisos - Ver | ✓ | — | — |
+| Permisos - Asignar | ✓ | — | — |
+| Auditoría - Ver | ✓ | — | — |
+| Reportes - Administrativos | ✓ | ✓ | — |
+| Reportes - Operativos | ✓ | ✓ | ✓ |
+
+### Notas
+
+- `*` El acceso puede estar limitado a los clientes, citas o información relacionados con las funciones propias del usuario.
+- El Barbero verá principalmente sus propias citas y los servicios que haya realizado.
+- El Recepcionista tendrá acceso al historial únicamente cuando sea necesario para las operaciones administrativas.
+- Los permisos podrán ajustarse posteriormente de acuerdo con las necesidades reales de la barbería.
