@@ -1,0 +1,381 @@
+# Sistema de Gestión para Barbería
+
+## 1. Descripción general
+
+El proyecto consiste en el desarrollo de un sistema web para la gestión de las operaciones principales de una barbería.
+
+El sistema permitirá centralizar la información relacionada con clientes, barberos, citas, servicios, historial de servicios y pagos, además de proporcionar mecanismos de administración de usuarios, roles y permisos, auditoría y generación de reportes.
+
+El objetivo del proyecto es desarrollar una solución funcional que permita demostrar la aplicación de principios de ingeniería de software, arquitectura por capas, persistencia de datos, control de acceso y gestión de información dentro del contexto de una barbería.
+
+El sistema estará orientado principalmente al personal interno de la barbería. No se contempla inicialmente un portal externo para clientes.
+
+---
+
+## 2. Objetivos
+
+### 2.1. Objetivo general
+
+Desarrollar un sistema web para gestionar de manera centralizada la información operativa y administrativa de una barbería, aplicando una arquitectura por capas y buenas prácticas de desarrollo de software.
+
+### 2.2. Objetivos específicos
+
+- Gestionar el registro y la información de los clientes.
+- Gestionar los barberos pertenecientes a la barbería.
+- Administrar las citas entre clientes y barberos.
+- Mantener el historial de servicios realizados a los clientes.
+- Gestionar el catálogo y registro de servicios.
+- Registrar los pagos asociados a los servicios realizados.
+- Administrar usuarios, roles y permisos de acceso.
+- Registrar las operaciones relevantes realizadas por los usuarios mediante un mecanismo de auditoría.
+- Generar reportes básicos sobre la información administrativa y operativa.
+- Implementar el sistema utilizando una arquitectura por capas que permita separar responsabilidades.
+
+---
+
+## 3. Alcance funcional
+
+El sistema incluirá los siguientes módulos:
+
+### 3.1. Gestión de clientes
+
+Permitirá registrar, consultar, modificar y administrar la información básica de los clientes.
+
+La información podrá incluir:
+
+- Datos personales.
+- Información de contacto.
+- Fecha de nacimiento.
+- Dirección.
+- Contacto de emergencia, cuando corresponda.
+- Estado del cliente.
+- Fecha de registro.
+
+Los clientes que posean información histórica o transaccional no serán eliminados físicamente del sistema. En estos casos se utilizará un estado que permita mantenerlos como inactivos.
+
+---
+
+### 3.2. Gestión de barberos
+
+Permitirá administrar la información de los barberos que trabajan en la barbería.
+
+La información podrá incluir:
+
+- Nombre y apellidos.
+- Información de contacto.
+- Especialidad o tipo de servicio que realiza.
+- Estado.
+- Fecha de registro.
+
+Cada barbero podrá estar asociado a un usuario del sistema para permitirle acceder a las funcionalidades correspondientes a su rol.
+
+---
+
+### 3.3. Gestión de citas
+
+Permitirá crear y administrar las citas entre clientes y barberos.
+
+Una cita deberá contener como mínimo:
+
+- Cliente.
+- Barbero.
+- Servicio.
+- Fecha.
+- Hora.
+- Estado.
+- Observaciones.
+
+Los estados contemplados inicialmente serán:
+
+- Programada.
+- Confirmada.
+- Atendida.
+- Cancelada.
+- No asistió.
+
+El sistema deberá evitar que un mismo barbero tenga dos citas activas en el mismo horario.
+
+---
+
+### 3.4. Historial de servicios
+
+Permitirá mantener el historial de los servicios realizados a cada cliente.
+
+El historial podrá incluir:
+
+- Fecha.
+- Cliente.
+- Barbero.
+- Servicio realizado.
+- Precio.
+- Observaciones.
+
+Además, se mantendrá un registro de los servicios realizados anteriormente al cliente para facilitar la consulta de su historial.
+
+El acceso y modificación de esta información estará restringido de acuerdo con los permisos del usuario.
+
+---
+
+### 3.5. Gestión de servicios
+
+El sistema permitirá administrar un catálogo de servicios disponibles en la barbería.
+
+Cada servicio del catálogo podrá contener:
+
+- Nombre.
+- Descripción.
+- Precio base.
+- Duración.
+- Estado.
+
+Los servicios del catálogo se diferenciarán de los servicios realizados a los clientes.
+
+Un servicio realizado podrá registrar:
+
+- Cliente.
+- Servicio.
+- Barbero.
+- Fecha.
+- Precio.
+- Estado.
+- Observaciones.
+
+Los estados podrán incluir:
+
+- Pendiente.
+- En proceso.
+- Completado.
+- Cancelado.
+
+---
+
+### 3.6. Gestión de pagos
+
+El sistema permitirá registrar los pagos asociados a los servicios realizados.
+
+Cada pago podrá contener:
+
+- Cliente.
+- Servicio realizado.
+- Fecha.
+- Monto.
+- Método de pago.
+- Estado.
+
+Los métodos de pago contemplados inicialmente serán:
+
+- Efectivo.
+- Tarjeta.
+- Transferencia.
+
+El sistema permitirá registrar pagos parciales y determinar el monto pendiente de un servicio.
+
+No se contempla inicialmente la integración directa con bancos, procesadores de pago o sistemas contables externos.
+
+---
+
+### 3.7. Usuarios, roles y permisos
+
+El sistema contará con autenticación para los usuarios internos de la barbería.
+
+Se contemplarán inicialmente los siguientes roles:
+
+#### Administrador
+
+Responsable de la administración general del sistema.
+
+Tendrá acceso a:
+
+- Usuarios.
+- Roles y permisos.
+- Clientes.
+- Barberos.
+- Citas.
+- Servicios.
+- Pagos.
+- Historial.
+- Auditoría.
+- Reportes.
+
+#### Recepcionista
+
+Responsable principalmente de las operaciones administrativas y la atención de los clientes.
+
+Tendrá acceso a:
+
+- Clientes.
+- Citas.
+- Barberos.
+- Servicios.
+- Pagos.
+- Historial básico.
+
+No tendrá permisos para administrar usuarios, roles y permisos del sistema.
+
+#### Barbero
+
+Responsable de las operaciones relacionadas con los servicios y sus citas.
+
+Tendrá acceso a:
+
+- Sus citas.
+- Clientes.
+- Historial de servicios.
+- Servicios.
+- Registro de servicios realizados.
+
+No tendrá acceso a la administración general de usuarios y permisos.
+
+Los permisos se gestionarán de manera independiente de los roles, permitiendo que un rol tenga múltiples permisos y que los permisos puedan ser utilizados para controlar el acceso a funcionalidades específicas.
+
+---
+
+### 3.8. Auditoría
+
+El sistema registrará las operaciones relevantes realizadas por los usuarios.
+
+Los registros de auditoría podrán incluir:
+
+- Fecha y hora.
+- Usuario.
+- Acción realizada.
+- Entidad afectada.
+- Identificador de la entidad.
+- Descripción de la operación.
+
+Entre las operaciones que podrán auditarse se encuentran:
+
+- Inicio de sesión.
+- Creación de registros.
+- Modificación de registros.
+- Desactivación de registros.
+- Registro de servicios.
+- Registro de pagos.
+- Cambios relacionados con usuarios, roles o permisos.
+
+No se pretende registrar cada interacción realizada en la interfaz, sino las operaciones relevantes para la trazabilidad del sistema.
+
+---
+
+### 3.9. Reportes
+
+El sistema proporcionará reportes básicos para facilitar la consulta de información.
+
+Inicialmente se contemplan:
+
+- Citas por período.
+- Citas por barbero.
+- Citas por estado.
+- Clientes registrados.
+- Servicios realizados.
+- Servicios más realizados.
+- Pagos por período.
+- Ingresos por período.
+- Pagos pendientes.
+
+Los reportes estarán orientados a la consulta de información y no constituirán un sistema contable.
+
+---
+
+## 4. Usuarios del sistema
+
+El sistema estará orientado a tres tipos principales de usuarios internos:
+
+| Usuario | Responsabilidad principal |
+|---|---|
+| Administrador | Administración general del sistema |
+| Recepcionista | Gestión administrativa y atención de clientes |
+| Barbero | Gestión de citas, clientes y servicios |
+
+La autorización se realizará utilizando roles y permisos.
+
+---
+
+## 5. Alcance técnico inicial
+
+El sistema será desarrollado como una aplicación web utilizando tecnologías del ecosistema .NET.
+
+La arquitectura inicial contemplará:
+
+- **Blazor** para la interfaz de usuario.
+- **ASP.NET Core / .NET** como plataforma de desarrollo.
+- **Entity Framework Core** para el acceso a datos.
+- **SQL Server** como sistema gestor de base de datos.
+- **ASP.NET Core Identity** para la gestión de autenticación y usuarios.
+- **Bootstrap o una librería de componentes compatible con Blazor** para facilitar el desarrollo de la interfaz.
+- **Git** para el control de versiones.
+
+La aplicación utilizará una arquitectura por capas para separar las responsabilidades de presentación, aplicación, dominio e infraestructura.
+
+---
+
+## 6. Arquitectura conceptual
+
+La arquitectura estará organizada inicialmente de la siguiente manera:
+
+```text
+┌─────────────────────────────┐
+│       Presentation          │
+│          Blazor             │
+├─────────────────────────────┤
+│        Application          │
+│   Casos de uso / Servicios  │
+├─────────────────────────────┤
+│           Domain            │
+│ Entidades / Reglas de negocio│
+├─────────────────────────────┤
+│       Infrastructure        │
+│ EF Core / SQL Server / Auth │
+└─────────────────────────────┘
+```
+
+Las dependencias entre capas se definirán durante el diseño detallado de la arquitectura.
+
+---
+
+## 7. Entidades principales
+
+Las principales entidades consideradas inicialmente son:
+
+- Cliente.
+- Barbero.
+- Servicio.
+- Cita.
+- ServicioRealizado.
+- Pago.
+- Usuario.
+- Rol.
+- Permiso.
+- Auditoría.
+
+Las relaciones y atributos definitivos de cada entidad serán establecidos durante el diseño detallado del modelo de dominio y de la base de datos.
+
+---
+
+## 8. Consideraciones de alcance
+
+El sistema busca representar las operaciones básicas de una barbería mediante una solución web centralizada.
+
+La primera versión estará enfocada en:
+
+- Organización de clientes.
+- Administración de barberos.
+- Gestión de citas.
+- Control de servicios.
+- Historial de servicios.
+- Registro de pagos.
+- Control de usuarios y permisos.
+- Auditoría.
+- Reportes administrativos.
+
+No se incorporarán funcionalidades externas o avanzadas que no sean necesarias para cumplir los objetivos principales del proyecto.
+
+---
+
+## 9. Criterio general de alcance
+
+El sistema debe priorizar la **completitud funcional de los requisitos solicitados** sobre la complejidad.
+
+Cada módulo deberá implementar las funcionalidades necesarias para demostrar su propósito dentro del sistema, evitando características avanzadas que no sean necesarias para cumplir los objetivos del proyecto.
+
+La solución debe ser suficientemente realista para representar el funcionamiento básico de una barbería, pero mantenerse dentro de un nivel de complejidad razonable para un equipo de desarrolladores.
